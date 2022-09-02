@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework', 
+    'supers',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +115,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 try:
-    from heroes_villains_project.settings import *
+    from heroes_villains_project.local_settings import *
 except ImportError:
-    pass
+    raise ImportError('local settings not found')
