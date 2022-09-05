@@ -19,9 +19,19 @@ def supers_list(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def supers_detail(request, pk):
     supers = get_object_or_404(Super, pk=pk)
-    serializer = SuperSerializer(supers)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = SuperSerializer(supers)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = SuperSerializer(supers, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        supers.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     
